@@ -1,44 +1,23 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter,Route,Routes,Link } from 'react-router-dom'
+import ThreadList from './routes/ThreadList'
+import NewThread from './routes/NewThread'
 import './App.css'
 
-export function App() {
-  const [threads, setTreads] = useState([])
 
-  useEffect(() => {
-    getData();
-  },[]);
-
-  const getData = () => {
-    fetch("https://railway.bulletinboard.techtrain.dev/threads?offset=20")
-    .then((response)=>{
-      if(!response.ok) {
-        throw new Error("APIからのデータ取得に失敗しました。");
-      }
-      return response.json();
-    })
-    .then((data) =>{
-      setTreads(data);
-      console.log(data);
-    })
-    .catch((error)=>{
-      console.error("エラー:",error);
-    });
-  };
+export const App = () => {
 
   return (
-    <>
-      <header>新着スレッド</header>
-      <main>
-        <ul>
-          {threads.map((thread)=>(
-            <li key={thread.id}>{thread.title}</li>
-          ))}
-        </ul>
-      </main>
-    </>
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route exact path="/" Component={ThreadList}></Route>
+          <Route path="/threads/new" Component={NewThread}></Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
+      
   );
 };
 
